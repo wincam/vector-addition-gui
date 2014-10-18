@@ -1,4 +1,8 @@
 #pragma once
+#include <math.h>
+#include <string>
+using namespace std;
+#define PI 3.14159265359
 
 namespace vectoradditiongui {
 
@@ -83,12 +87,12 @@ namespace vectoradditiongui {
 			this->VectorLabel1 = (gcnew System::Windows::Forms::Label());
 			this->VectorMagnitudeTxtBox = (gcnew System::Windows::Forms::TextBox());
 			this->VectorResultantBox = (gcnew System::Windows::Forms::GroupBox());
-			this->Vectorlabel2 = (gcnew System::Windows::Forms::Label());
-			this->VectorXMagTxtBox = (gcnew System::Windows::Forms::TextBox());
-			this->VectorLabel3 = (gcnew System::Windows::Forms::Label());
-			this->VectorYMagnitudeTxtBox = (gcnew System::Windows::Forms::TextBox());
 			this->VectorResultantTxtBox = (gcnew System::Windows::Forms::Label());
+			this->VectorLabel3 = (gcnew System::Windows::Forms::Label());
 			this->textBox1 = (gcnew System::Windows::Forms::TextBox());
+			this->Vectorlabel2 = (gcnew System::Windows::Forms::Label());
+			this->VectorYMagnitudeTxtBox = (gcnew System::Windows::Forms::TextBox());
+			this->VectorXMagTxtBox = (gcnew System::Windows::Forms::TextBox());
 			this->VectorListBox->SuspendLayout();
 			this->VectorEditBox->SuspendLayout();
 			this->VectorResultantBox->SuspendLayout();
@@ -155,6 +159,7 @@ namespace vectoradditiongui {
 			this->VectorAddBtn->TabIndex = 5;
 			this->VectorAddBtn->Text = L"Add";
 			this->VectorAddBtn->UseVisualStyleBackColor = true;
+			this->VectorAddBtn->Click += gcnew System::EventHandler(this, &Vectoraddition::VectorAddBtn_Click);
 			// 
 			// VectorDirectionBox2
 			// 
@@ -181,6 +186,7 @@ namespace vectoradditiongui {
 			this->VectorDirectionBox1->Name = L"VectorDirectionBox1";
 			this->VectorDirectionBox1->Size = System::Drawing::Size(45, 21);
 			this->VectorDirectionBox1->TabIndex = 2;
+			this->VectorDirectionBox1->SelectedIndexChanged += gcnew System::EventHandler(this, &Vectoraddition::VectorDirectionBox1_SelectedIndexChanged);
 			// 
 			// VectorLabel1
 			// 
@@ -213,22 +219,14 @@ namespace vectoradditiongui {
 			this->VectorResultantBox->TabStop = false;
 			this->VectorResultantBox->Text = L"Resultant";
 			// 
-			// Vectorlabel2
+			// VectorResultantTxtBox
 			// 
-			this->Vectorlabel2->AutoSize = true;
-			this->Vectorlabel2->Location = System::Drawing::Point(6, 22);
-			this->Vectorlabel2->Name = L"Vectorlabel2";
-			this->Vectorlabel2->Size = System::Drawing::Size(67, 13);
-			this->Vectorlabel2->TabIndex = 3;
-			this->Vectorlabel2->Text = L"X Magnitude";
-			// 
-			// VectorXMagTxtBox
-			// 
-			this->VectorXMagTxtBox->Location = System::Drawing::Point(79, 19);
-			this->VectorXMagTxtBox->Name = L"VectorXMagTxtBox";
-			this->VectorXMagTxtBox->ReadOnly = true;
-			this->VectorXMagTxtBox->Size = System::Drawing::Size(357, 20);
-			this->VectorXMagTxtBox->TabIndex = 0;
+			this->VectorResultantTxtBox->AutoSize = true;
+			this->VectorResultantTxtBox->Location = System::Drawing::Point(6, 74);
+			this->VectorResultantTxtBox->Name = L"VectorResultantTxtBox";
+			this->VectorResultantTxtBox->Size = System::Drawing::Size(52, 13);
+			this->VectorResultantTxtBox->TabIndex = 7;
+			this->VectorResultantTxtBox->Text = L"Resultant";
 			// 
 			// VectorLabel3
 			// 
@@ -239,6 +237,23 @@ namespace vectoradditiongui {
 			this->VectorLabel3->TabIndex = 5;
 			this->VectorLabel3->Text = L"Y Magnitude";
 			// 
+			// textBox1
+			// 
+			this->textBox1->Location = System::Drawing::Point(79, 71);
+			this->textBox1->Name = L"textBox1";
+			this->textBox1->ReadOnly = true;
+			this->textBox1->Size = System::Drawing::Size(357, 20);
+			this->textBox1->TabIndex = 6;
+			// 
+			// Vectorlabel2
+			// 
+			this->Vectorlabel2->AutoSize = true;
+			this->Vectorlabel2->Location = System::Drawing::Point(6, 22);
+			this->Vectorlabel2->Name = L"Vectorlabel2";
+			this->Vectorlabel2->Size = System::Drawing::Size(67, 13);
+			this->Vectorlabel2->TabIndex = 3;
+			this->Vectorlabel2->Text = L"X Magnitude";
+			// 
 			// VectorYMagnitudeTxtBox
 			// 
 			this->VectorYMagnitudeTxtBox->Location = System::Drawing::Point(79, 45);
@@ -247,22 +262,13 @@ namespace vectoradditiongui {
 			this->VectorYMagnitudeTxtBox->Size = System::Drawing::Size(357, 20);
 			this->VectorYMagnitudeTxtBox->TabIndex = 4;
 			// 
-			// VectorResultantTxtBox
+			// VectorXMagTxtBox
 			// 
-			this->VectorResultantTxtBox->AutoSize = true;
-			this->VectorResultantTxtBox->Location = System::Drawing::Point(6, 74);
-			this->VectorResultantTxtBox->Name = L"VectorResultantTxtBox";
-			this->VectorResultantTxtBox->Size = System::Drawing::Size(52, 13);
-			this->VectorResultantTxtBox->TabIndex = 7;
-			this->VectorResultantTxtBox->Text = L"Resultant";
-			// 
-			// textBox1
-			// 
-			this->textBox1->Location = System::Drawing::Point(79, 71);
-			this->textBox1->Name = L"textBox1";
-			this->textBox1->ReadOnly = true;
-			this->textBox1->Size = System::Drawing::Size(357, 20);
-			this->textBox1->TabIndex = 6;
+			this->VectorXMagTxtBox->Location = System::Drawing::Point(79, 19);
+			this->VectorXMagTxtBox->Name = L"VectorXMagTxtBox";
+			this->VectorXMagTxtBox->ReadOnly = true;
+			this->VectorXMagTxtBox->Size = System::Drawing::Size(357, 20);
+			this->VectorXMagTxtBox->TabIndex = 0;
 			// 
 			// Vectoraddition
 			// 
@@ -283,5 +289,47 @@ namespace vectoradditiongui {
 
 		}
 #pragma endregion
+private: System::Void VectorAddBtn_Click(System::Object^  sender, System::EventArgs^  e) {
+}
+//direction 1 selected
+//-----------------------------------------------------------------------------------------------------------------------------------
+private: System::Void VectorDirectionBox1_SelectedIndexChanged(System::Object^  sender, System::EventArgs^  e) {
+	//direction 2 setup
+	if (this->VectorDirectionBox1->Text == "N" || this->VectorDirectionBox1->Text == "S"){
+		this->VectorDirectionBox2->Items->Clear();
+		this->VectorDirectionBox2->Items->Add("E");
+		this->VectorDirectionBox2->Items->Add("W");
+	}
+	else if (this->VectorDirectionBox1->Text == "E" || this->VectorDirectionBox1->Text == "W"){
+		this->VectorDirectionBox2->Items->Clear();
+		this->VectorDirectionBox2->Items->Add("N");
+		this->VectorDirectionBox2->Items->Add("S");
+	}
+	
+}
 };
+}
+
+//vector data storage
+struct Vector
+{
+	double magnitude{};
+	double xmagnitude{};
+	double ymagnitude{};
+	double degree{};
+	short xdir{};
+	short ydir{};
+};
+
+//vector array expand
+Vector * vectorarrayexpand(Vector * array, int arraysize, int arrayincrease)
+{
+	Vector * newarray = new Vector[arraysize + arrayincrease];
+	for (int i{ 0 }; i < arraysize; i++){
+		//set old values
+		newarray[i] = array[i];
+
+	}
+	delete[] array;
+	return newarray;
 }
