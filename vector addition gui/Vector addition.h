@@ -163,6 +163,7 @@ namespace vectoradditiongui {
 			// 
 			// VectorAddBtn
 			// 
+			this->VectorAddBtn->Enabled = false;
 			this->VectorAddBtn->Location = System::Drawing::Point(6, 45);
 			this->VectorAddBtn->Name = L"VectorAddBtn";
 			this->VectorAddBtn->Size = System::Drawing::Size(122, 22);
@@ -179,6 +180,7 @@ namespace vectoradditiongui {
 			this->VectorDirectionBox2->Name = L"VectorDirectionBox2";
 			this->VectorDirectionBox2->Size = System::Drawing::Size(45, 21);
 			this->VectorDirectionBox2->TabIndex = 4;
+			this->VectorDirectionBox2->TextChanged += gcnew System::EventHandler(this, &Vectoraddition::VectorDirectionBox2_TextChanged);
 			// 
 			// VectorDegreeTxtBox
 			// 
@@ -186,6 +188,7 @@ namespace vectoradditiongui {
 			this->VectorDegreeTxtBox->Name = L"VectorDegreeTxtBox";
 			this->VectorDegreeTxtBox->Size = System::Drawing::Size(47, 20);
 			this->VectorDegreeTxtBox->TabIndex = 3;
+			this->VectorDegreeTxtBox->TextChanged += gcnew System::EventHandler(this, &Vectoraddition::VectorDegreeTxtBox_TextChanged);
 			// 
 			// VectorDirectionBox1
 			// 
@@ -197,6 +200,7 @@ namespace vectoradditiongui {
 			this->VectorDirectionBox1->Size = System::Drawing::Size(45, 21);
 			this->VectorDirectionBox1->TabIndex = 2;
 			this->VectorDirectionBox1->SelectedIndexChanged += gcnew System::EventHandler(this, &Vectoraddition::VectorDirectionBox1_SelectedIndexChanged);
+			this->VectorDirectionBox1->TextChanged += gcnew System::EventHandler(this, &Vectoraddition::VectorDirectionBox1_TextChanged);
 			// 
 			// VectorLabel1
 			// 
@@ -213,6 +217,7 @@ namespace vectoradditiongui {
 			this->VectorMagnitudeTxtBox->Name = L"VectorMagnitudeTxtBox";
 			this->VectorMagnitudeTxtBox->Size = System::Drawing::Size(231, 20);
 			this->VectorMagnitudeTxtBox->TabIndex = 0;
+			this->VectorMagnitudeTxtBox->TextChanged += gcnew System::EventHandler(this, &Vectoraddition::VectorMagnitudeTxtBox_TextChanged);
 			// 
 			// VectorResultantBox
 			// 
@@ -301,8 +306,29 @@ namespace vectoradditiongui {
 
 		}
 #pragma endregion
+//check if number
+//-----------------------------------------------------------------------------------------------------------------------------------
+bool isnumber(){
+			msclr::interop::marshal_context context;
+			string input{ context.marshal_as<std::string>(this->VectorMagnitudeTxtBox->Text) };
 
+			//check if input boxes are only numbers
+			for (unsigned int i = 0; i < input.length(); i++){
+				if (!(input[i] >= '0' && input[i] <= '9')) {
+					return false;
+				}
+			}
 
+			input = context.marshal_as<std::string>(this->VectorDegreeTxtBox->Text);
+			for (unsigned int i = 0; i < input.length(); i++){
+				if (!(input[i] >= '0' && input[i] <= '9')) {
+					return false;
+				}
+			}
+			return true;
+}
+//add button
+//-----------------------------------------------------------------------------------------------------------------------------------
 private: System::Void VectorAddBtn_Click(System::Object^  sender, System::EventArgs^  e) {
 	vectors_size++;
 	vectors = vectorarrayexpand(vectors, vectors_size, 1);
@@ -448,8 +474,52 @@ private: System::Void VectorDirectionBox1_SelectedIndexChanged(System::Object^  
 		this->VectorDirectionBox2->Items->Add("N");
 		this->VectorDirectionBox2->Items->Add("S");
 	}
+
+	//deactivate add button
+	this->VectorAddBtn->Enabled = false;
 	
 }
+
+//add button activation mananagement
+//-----------------------------------------------------------------------------------------------------------------------------------
+	private: System::Void VectorMagnitudeTxtBox_TextChanged(System::Object^  sender, System::EventArgs^  e) {
+
+		if (this->VectorMagnitudeTxtBox->Text != "" && this->VectorDirectionBox1->Text != "" && this->VectorDegreeTxtBox->Text != "" && this->VectorDirectionBox2->Text != "" && this->isnumber() == true){
+			this->VectorAddBtn->Enabled = true;
+		}
+		else{
+			this->VectorAddBtn->Enabled = false;
+		}
+}
+private: System::Void VectorDirectionBox1_TextChanged(System::Object^  sender, System::EventArgs^  e) {
+
+	if (this->VectorMagnitudeTxtBox->Text != "" && this->VectorDirectionBox1->Text != "" && this->VectorDegreeTxtBox->Text != "" && this->VectorDirectionBox2->Text != "" && this->isnumber() == true){
+		this->VectorAddBtn->Enabled = true;
+	}
+	else{
+		this->VectorAddBtn->Enabled = false;
+	}
+}
+private: System::Void VectorDegreeTxtBox_TextChanged(System::Object^  sender, System::EventArgs^  e) {
+
+	if (this->VectorMagnitudeTxtBox->Text != "" && this->VectorDirectionBox1->Text != "" && this->VectorDegreeTxtBox->Text != "" && this->VectorDirectionBox2->Text != "" && this->isnumber() == true){
+		this->VectorAddBtn->Enabled = true;
+	}
+	else{
+		this->VectorAddBtn->Enabled = false;
+	}
+}
+private: System::Void VectorDirectionBox2_TextChanged(System::Object^  sender, System::EventArgs^  e) {
+
+	if (this->VectorMagnitudeTxtBox->Text != "" && this->VectorDirectionBox1->Text != "" && this->VectorDegreeTxtBox->Text != "" && this->VectorDirectionBox2->Text != "" && this->isnumber() == true){
+		this->VectorAddBtn->Enabled = true;
+	}
+	else{
+		this->VectorAddBtn->Enabled = false;
+	}
+}
+
+		 
 };
 }
 

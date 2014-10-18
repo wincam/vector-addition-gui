@@ -22,6 +22,7 @@ Vector * vectorarrayexpand(Vector * array, int arraysize, int arrayincrease)
 	return newarray;
 }
 
+
 // vectors
 int vectors_size{ 0 };
 Vector * vectors = new Vector[0];
