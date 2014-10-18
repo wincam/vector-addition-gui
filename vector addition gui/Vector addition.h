@@ -1,6 +1,11 @@
 #pragma once
 #include <math.h>
 #include <string>
+#include <msclr/marshal.h>
+#include <msclr/marshal_cppstd.h>
+
+#include "Resource.h"
+using namespace msclr::interop;
 using namespace std;
 #define PI 3.14159265359
 
@@ -13,6 +18,8 @@ namespace vectoradditiongui {
 	using namespace System::Data;
 	using namespace System::Drawing;
 
+
+
 	/// <summary>
 	/// Summary for Vectoraddition
 	/// </summary>
@@ -21,10 +28,10 @@ namespace vectoradditiongui {
 	public:
 		Vectoraddition(void)
 		{
+			
 			InitializeComponent();
-			//
-			//TODO: Add the constructor code here
-			//
+			
+			
 		}
 
 	protected:
@@ -55,8 +62,10 @@ namespace vectoradditiongui {
 	private: System::Windows::Forms::TextBox^  VectorXMagTxtBox;
 	private: System::Windows::Forms::Label^  VectorLabel3;
 	private: System::Windows::Forms::TextBox^  VectorYMagnitudeTxtBox;
-	private: System::Windows::Forms::Label^  VectorResultantTxtBox;
-	private: System::Windows::Forms::TextBox^  textBox1;
+	private: System::Windows::Forms::Label^  VectorLabel4;
+	private: System::Windows::Forms::TextBox^  VectorResultantTxtBox;
+
+
 
 
 
@@ -87,9 +96,9 @@ namespace vectoradditiongui {
 			this->VectorLabel1 = (gcnew System::Windows::Forms::Label());
 			this->VectorMagnitudeTxtBox = (gcnew System::Windows::Forms::TextBox());
 			this->VectorResultantBox = (gcnew System::Windows::Forms::GroupBox());
-			this->VectorResultantTxtBox = (gcnew System::Windows::Forms::Label());
+			this->VectorLabel4 = (gcnew System::Windows::Forms::Label());
 			this->VectorLabel3 = (gcnew System::Windows::Forms::Label());
-			this->textBox1 = (gcnew System::Windows::Forms::TextBox());
+			this->VectorResultantTxtBox = (gcnew System::Windows::Forms::TextBox());
 			this->Vectorlabel2 = (gcnew System::Windows::Forms::Label());
 			this->VectorYMagnitudeTxtBox = (gcnew System::Windows::Forms::TextBox());
 			this->VectorXMagTxtBox = (gcnew System::Windows::Forms::TextBox());
@@ -206,9 +215,9 @@ namespace vectoradditiongui {
 			// 
 			// VectorResultantBox
 			// 
-			this->VectorResultantBox->Controls->Add(this->VectorResultantTxtBox);
+			this->VectorResultantBox->Controls->Add(this->VectorLabel4);
 			this->VectorResultantBox->Controls->Add(this->VectorLabel3);
-			this->VectorResultantBox->Controls->Add(this->textBox1);
+			this->VectorResultantBox->Controls->Add(this->VectorResultantTxtBox);
 			this->VectorResultantBox->Controls->Add(this->Vectorlabel2);
 			this->VectorResultantBox->Controls->Add(this->VectorYMagnitudeTxtBox);
 			this->VectorResultantBox->Controls->Add(this->VectorXMagTxtBox);
@@ -219,14 +228,14 @@ namespace vectoradditiongui {
 			this->VectorResultantBox->TabStop = false;
 			this->VectorResultantBox->Text = L"Resultant";
 			// 
-			// VectorResultantTxtBox
+			// VectorLabel4
 			// 
-			this->VectorResultantTxtBox->AutoSize = true;
-			this->VectorResultantTxtBox->Location = System::Drawing::Point(6, 74);
-			this->VectorResultantTxtBox->Name = L"VectorResultantTxtBox";
-			this->VectorResultantTxtBox->Size = System::Drawing::Size(52, 13);
-			this->VectorResultantTxtBox->TabIndex = 7;
-			this->VectorResultantTxtBox->Text = L"Resultant";
+			this->VectorLabel4->AutoSize = true;
+			this->VectorLabel4->Location = System::Drawing::Point(6, 74);
+			this->VectorLabel4->Name = L"VectorLabel4";
+			this->VectorLabel4->Size = System::Drawing::Size(52, 13);
+			this->VectorLabel4->TabIndex = 7;
+			this->VectorLabel4->Text = L"Resultant";
 			// 
 			// VectorLabel3
 			// 
@@ -237,13 +246,13 @@ namespace vectoradditiongui {
 			this->VectorLabel3->TabIndex = 5;
 			this->VectorLabel3->Text = L"Y Magnitude";
 			// 
-			// textBox1
+			// VectorResultantTxtBox
 			// 
-			this->textBox1->Location = System::Drawing::Point(79, 71);
-			this->textBox1->Name = L"textBox1";
-			this->textBox1->ReadOnly = true;
-			this->textBox1->Size = System::Drawing::Size(357, 20);
-			this->textBox1->TabIndex = 6;
+			this->VectorResultantTxtBox->Location = System::Drawing::Point(79, 71);
+			this->VectorResultantTxtBox->Name = L"VectorResultantTxtBox";
+			this->VectorResultantTxtBox->ReadOnly = true;
+			this->VectorResultantTxtBox->Size = System::Drawing::Size(357, 20);
+			this->VectorResultantTxtBox->TabIndex = 6;
 			// 
 			// Vectorlabel2
 			// 
@@ -289,7 +298,108 @@ namespace vectoradditiongui {
 
 		}
 #pragma endregion
+
+
 private: System::Void VectorAddBtn_Click(System::Object^  sender, System::EventArgs^  e) {
+	vectors_size++;
+	vectors = vectorarrayexpand(vectors, vectors_size, 1);
+	if (this->VectorDirectionBox1->Text == "N" || this->VectorDirectionBox1->Text == "S"){
+		
+		//y direction
+		if (this->VectorDirectionBox2->Text == "W"){
+			vectors[vectors_size - 1].xdir = 1;
+		}
+		else if (this->VectorDirectionBox2->Text == "E"){
+			vectors[vectors_size - 1].xdir = 2;
+		}
+
+		//x direction
+
+		if (this->VectorDirectionBox1->Text == "N"){
+			vectors[vectors_size - 1].ydir = 1;
+		}
+		else if (this->VectorDirectionBox1->Text == "S"){
+			vectors[vectors_size - 1].ydir = 2;
+		}
+
+		//vector degree
+		vectors[vectors_size - 1].degree = System::Convert::ToDouble(this->VectorDegreeTxtBox->Text);
+
+	}
+	else if (this->VectorDirectionBox1->Text == "E" || this->VectorDirectionBox1->Text == "W"){
+		//x direction
+		if (this->VectorDirectionBox1->Text == "W"){
+			vectors[vectors_size - 1].xdir = 1;
+		}
+		else if (this->VectorDirectionBox1->Text == "E"){
+			vectors[vectors_size - 1].xdir = 2;
+		}
+
+		//y direction
+
+		if (this->VectorDirectionBox2->Text == "N"){
+			vectors[vectors_size - 1].ydir = 1;
+		}
+		else if (this->VectorDirectionBox2->Text == "S"){
+			vectors[vectors_size - 1].ydir = 2;
+		}
+
+		//vector degree
+		vectors[vectors_size - 1].degree = 90 - System::Convert::ToDouble(this->VectorDegreeTxtBox->Text);
+
+	}
+	//vector magnitude
+	vectors[vectors_size - 1].magnitude = System::Convert::ToDouble(this->VectorMagnitudeTxtBox->Text);
+
+
+	// component calculations
+	vectors[vectors_size - 1].xmagnitude = (vectors[vectors_size - 1].magnitude*(cos(vectors[vectors_size - 1].degree * PI / 180)));
+	vectors[vectors_size - 1].ymagnitude = (vectors[vectors_size - 1].magnitude*(sin(vectors[vectors_size - 1].degree * PI / 180)));
+
+	if (vectors[vectors_size - 1].xdir == 1){
+		vectors[vectors_size - 1].xmagnitude *= -1;
+	}
+	if (vectors[vectors_size - 1].ydir == 2){
+		vectors[vectors_size - 1].ymagnitude *= -1;
+	}
+
+
+	//calc resultant
+	//---------------------------------------------
+	double xmag{};
+	double ymag{};
+	double resdegree{};
+	double resmag{};
+	string resultant{};
+	for (int i{ 0 }; i < vectors_size; i++){
+		xmag += vectors[i].xmagnitude;
+		ymag += vectors[i].ymagnitude;
+	}
+
+	resdegree = atan(abs(ymag / xmag)) * 180 / PI;
+	resmag = sqrt(pow(xmag, 2) + pow(ymag, 2));
+	resultant += to_string (resmag);
+
+
+	if (ymag > 0){
+		resultant += " [N";
+		resultant += to_string(resdegree);
+	}
+	else if (ymag < 0){
+		resultant += " [S";
+		resultant += to_string(resdegree);
+	}
+
+	if (xmag > 0){
+		resultant += "E]";
+		
+	}
+	else if (xmag < 0){
+		resultant += "W]";
+		
+	}
+
+	this->VectorResultantTxtBox->Text = gcnew String(resultant.c_str());
 }
 //direction 1 selected
 //-----------------------------------------------------------------------------------------------------------------------------------
@@ -310,26 +420,5 @@ private: System::Void VectorDirectionBox1_SelectedIndexChanged(System::Object^  
 };
 }
 
-//vector data storage
-struct Vector
-{
-	double magnitude{};
-	double xmagnitude{};
-	double ymagnitude{};
-	double degree{};
-	short xdir{};
-	short ydir{};
-};
 
-//vector array expand
-Vector * vectorarrayexpand(Vector * array, int arraysize, int arrayincrease)
-{
-	Vector * newarray = new Vector[arraysize + arrayincrease];
-	for (int i{ 0 }; i < arraysize; i++){
-		//set old values
-		newarray[i] = array[i];
 
-	}
-	delete[] array;
-	return newarray;
-}

@@ -81,6 +81,7 @@
     <ClCompile Include="Vector addition.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Resource.h" />
     <ClInclude Include="Vector addition.h">
       <FileType>CppForm</FileType>
     </ClInclude>
