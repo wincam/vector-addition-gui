@@ -113,16 +113,16 @@ namespace vectoradditiongui {
 			this->VectorListBox->Controls->Add(this->VectorEditBtn);
 			this->VectorListBox->Controls->Add(this->VectorDeleteBtn);
 			this->VectorListBox->Controls->Add(this->VectorList);
-			this->VectorListBox->Location = System::Drawing::Point(964, 12);
+			this->VectorListBox->Location = System::Drawing::Point(464, 12);
 			this->VectorListBox->Name = L"VectorListBox";
-			this->VectorListBox->Size = System::Drawing::Size(215, 548);
+			this->VectorListBox->Size = System::Drawing::Size(215, 187);
 			this->VectorListBox->TabIndex = 0;
 			this->VectorListBox->TabStop = false;
 			this->VectorListBox->Text = L"Vectors";
 			// 
 			// VectorEditBtn
 			// 
-			this->VectorEditBtn->Location = System::Drawing::Point(6, 510);
+			this->VectorEditBtn->Location = System::Drawing::Point(6, 146);
 			this->VectorEditBtn->Name = L"VectorEditBtn";
 			this->VectorEditBtn->Size = System::Drawing::Size(100, 28);
 			this->VectorEditBtn->TabIndex = 3;
@@ -131,7 +131,7 @@ namespace vectoradditiongui {
 			// 
 			// VectorDeleteBtn
 			// 
-			this->VectorDeleteBtn->Location = System::Drawing::Point(109, 510);
+			this->VectorDeleteBtn->Location = System::Drawing::Point(109, 146);
 			this->VectorDeleteBtn->Name = L"VectorDeleteBtn";
 			this->VectorDeleteBtn->Size = System::Drawing::Size(100, 28);
 			this->VectorDeleteBtn->TabIndex = 2;
@@ -143,7 +143,7 @@ namespace vectoradditiongui {
 			this->VectorList->FormattingEnabled = true;
 			this->VectorList->Location = System::Drawing::Point(6, 19);
 			this->VectorList->Name = L"VectorList";
-			this->VectorList->Size = System::Drawing::Size(203, 485);
+			this->VectorList->Size = System::Drawing::Size(203, 121);
 			this->VectorList->TabIndex = 1;
 			// 
 			// VectorEditBox
@@ -284,12 +284,14 @@ namespace vectoradditiongui {
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(1191, 585);
+			this->ClientSize = System::Drawing::Size(687, 214);
 			this->Controls->Add(this->VectorResultantBox);
 			this->Controls->Add(this->VectorEditBox);
 			this->Controls->Add(this->VectorListBox);
+			this->FormBorderStyle = System::Windows::Forms::FormBorderStyle::FixedSingle;
+			this->MaximizeBox = false;
 			this->Name = L"Vectoraddition";
-			this->Text = L"Vectoraddition";
+			this->Text = L"Vector Addition Calculator";
 			this->VectorListBox->ResumeLayout(false);
 			this->VectorEditBox->ResumeLayout(false);
 			this->VectorEditBox->PerformLayout();
@@ -404,6 +406,33 @@ private: System::Void VectorAddBtn_Click(System::Object^  sender, System::EventA
 	this->VectorXMagTxtBox->Text = xmag.ToString();
 	this->VectorYMagTxtBox->Text = ymag.ToString();
 	this->VectorResultantTxtBox->Text = gcnew String(resultant.c_str());
+
+	//set up list of vectors
+	this->VectorList->Items->Clear();
+	for (int i{ 0 }; i < vectors_size; i++){
+		string vector{};
+		vector += to_string (vectors[i].magnitude);
+		
+		if (vectors[i].ydir == 1){
+			vector += " [N";
+			vector += to_string(resdegree);
+		}
+		else if (vectors[i].ydir == 2){
+			vector += " [S";
+			vector += to_string(resdegree);
+		}
+
+		if (vectors[i].xdir == 1){
+			vector += "W]";
+
+		}
+		else if (vectors[i].xdir == 2){
+			vector += "E]";
+
+		}
+		this->VectorList->Items->Add(gcnew String (vector.c_str()));
+	}
+	
 }
 //direction 1 selected
 //-----------------------------------------------------------------------------------------------------------------------------------
