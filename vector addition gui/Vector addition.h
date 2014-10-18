@@ -61,7 +61,8 @@ namespace vectoradditiongui {
 	private: System::Windows::Forms::Label^  Vectorlabel2;
 	private: System::Windows::Forms::TextBox^  VectorXMagTxtBox;
 	private: System::Windows::Forms::Label^  VectorLabel3;
-	private: System::Windows::Forms::TextBox^  VectorYMagnitudeTxtBox;
+	private: System::Windows::Forms::TextBox^  VectorYMagTxtBox;
+
 	private: System::Windows::Forms::Label^  VectorLabel4;
 	private: System::Windows::Forms::TextBox^  VectorResultantTxtBox;
 
@@ -100,7 +101,7 @@ namespace vectoradditiongui {
 			this->VectorLabel3 = (gcnew System::Windows::Forms::Label());
 			this->VectorResultantTxtBox = (gcnew System::Windows::Forms::TextBox());
 			this->Vectorlabel2 = (gcnew System::Windows::Forms::Label());
-			this->VectorYMagnitudeTxtBox = (gcnew System::Windows::Forms::TextBox());
+			this->VectorYMagTxtBox = (gcnew System::Windows::Forms::TextBox());
 			this->VectorXMagTxtBox = (gcnew System::Windows::Forms::TextBox());
 			this->VectorListBox->SuspendLayout();
 			this->VectorEditBox->SuspendLayout();
@@ -219,7 +220,7 @@ namespace vectoradditiongui {
 			this->VectorResultantBox->Controls->Add(this->VectorLabel3);
 			this->VectorResultantBox->Controls->Add(this->VectorResultantTxtBox);
 			this->VectorResultantBox->Controls->Add(this->Vectorlabel2);
-			this->VectorResultantBox->Controls->Add(this->VectorYMagnitudeTxtBox);
+			this->VectorResultantBox->Controls->Add(this->VectorYMagTxtBox);
 			this->VectorResultantBox->Controls->Add(this->VectorXMagTxtBox);
 			this->VectorResultantBox->Location = System::Drawing::Point(12, 96);
 			this->VectorResultantBox->Name = L"VectorResultantBox";
@@ -263,13 +264,13 @@ namespace vectoradditiongui {
 			this->Vectorlabel2->TabIndex = 3;
 			this->Vectorlabel2->Text = L"X Magnitude";
 			// 
-			// VectorYMagnitudeTxtBox
+			// VectorYMagTxtBox
 			// 
-			this->VectorYMagnitudeTxtBox->Location = System::Drawing::Point(79, 45);
-			this->VectorYMagnitudeTxtBox->Name = L"VectorYMagnitudeTxtBox";
-			this->VectorYMagnitudeTxtBox->ReadOnly = true;
-			this->VectorYMagnitudeTxtBox->Size = System::Drawing::Size(357, 20);
-			this->VectorYMagnitudeTxtBox->TabIndex = 4;
+			this->VectorYMagTxtBox->Location = System::Drawing::Point(79, 45);
+			this->VectorYMagTxtBox->Name = L"VectorYMagTxtBox";
+			this->VectorYMagTxtBox->ReadOnly = true;
+			this->VectorYMagTxtBox->Size = System::Drawing::Size(357, 20);
+			this->VectorYMagTxtBox->TabIndex = 4;
 			// 
 			// VectorXMagTxtBox
 			// 
@@ -353,8 +354,8 @@ private: System::Void VectorAddBtn_Click(System::Object^  sender, System::EventA
 
 
 	// component calculations
-	vectors[vectors_size - 1].xmagnitude = (vectors[vectors_size - 1].magnitude*(cos(vectors[vectors_size - 1].degree * PI / 180)));
-	vectors[vectors_size - 1].ymagnitude = (vectors[vectors_size - 1].magnitude*(sin(vectors[vectors_size - 1].degree * PI / 180)));
+	vectors[vectors_size - 1].xmagnitude = (vectors[vectors_size - 1].magnitude*(sin(vectors[vectors_size - 1].degree * PI / 180)));
+	vectors[vectors_size - 1].ymagnitude = (vectors[vectors_size - 1].magnitude*(cos(vectors[vectors_size - 1].degree * PI / 180)));
 
 	if (vectors[vectors_size - 1].xdir == 1){
 		vectors[vectors_size - 1].xmagnitude *= -1;
@@ -376,7 +377,7 @@ private: System::Void VectorAddBtn_Click(System::Object^  sender, System::EventA
 		ymag += vectors[i].ymagnitude;
 	}
 
-	resdegree = atan(abs(ymag / xmag)) * 180 / PI;
+	resdegree = atan(abs(xmag / ymag)) * 180 / PI;
 	resmag = sqrt(pow(xmag, 2) + pow(ymag, 2));
 	resultant += to_string (resmag);
 
@@ -399,6 +400,9 @@ private: System::Void VectorAddBtn_Click(System::Object^  sender, System::EventA
 		
 	}
 
+	//display resultant
+	this->VectorXMagTxtBox->Text = xmag.ToString();
+	this->VectorYMagTxtBox->Text = ymag.ToString();
 	this->VectorResultantTxtBox->Text = gcnew String(resultant.c_str());
 }
 //direction 1 selected
