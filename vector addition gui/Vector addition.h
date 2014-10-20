@@ -137,6 +137,7 @@ namespace vectoradditiongui {
 			this->VectorDeleteBtn->TabIndex = 2;
 			this->VectorDeleteBtn->Text = L"Delete";
 			this->VectorDeleteBtn->UseVisualStyleBackColor = true;
+			this->VectorDeleteBtn->Click += gcnew System::EventHandler(this, &Vectoraddition::VectorDeleteBtn_Click);
 			// 
 			// VectorList
 			// 
@@ -145,6 +146,7 @@ namespace vectoradditiongui {
 			this->VectorList->Name = L"VectorList";
 			this->VectorList->Size = System::Drawing::Size(203, 121);
 			this->VectorList->TabIndex = 1;
+			this->VectorList->SelectedValueChanged += gcnew System::EventHandler(this, &Vectoraddition::VectorList_SelectedValueChanged);
 			// 
 			// VectorEditBox
 			// 
@@ -297,6 +299,7 @@ namespace vectoradditiongui {
 			this->MaximizeBox = false;
 			this->Name = L"Vectoraddition";
 			this->Text = L"Vector Addition Calculator";
+			this->Load += gcnew System::EventHandler(this, &Vectoraddition::Vectoraddition_Load);
 			this->VectorListBox->ResumeLayout(false);
 			this->VectorEditBox->ResumeLayout(false);
 			this->VectorEditBox->PerformLayout();
@@ -309,24 +312,121 @@ namespace vectoradditiongui {
 //check if number
 //-----------------------------------------------------------------------------------------------------------------------------------
 bool isnumber(){
-			msclr::interop::marshal_context context;
-			string input{ context.marshal_as<std::string>(this->VectorMagnitudeTxtBox->Text) };
+	msclr::interop::marshal_context context;
+	string input{ context.marshal_as<std::string>(this->VectorMagnitudeTxtBox->Text) };
 
-			//check if input boxes are only numbers
-			for (unsigned int i = 0; i < input.length(); i++){
-				if (!(input[i] >= '0' && input[i] <= '9')) {
-					return false;
-				}
-			}
+	//check if input boxes are only numbers
+	for (unsigned int i = 0; i < input.length(); i++){
+		if (!(input[i] >= '0' && input[i] <= '9')) {
+			return false;
+		}
+	}
 
-			input = context.marshal_as<std::string>(this->VectorDegreeTxtBox->Text);
-			for (unsigned int i = 0; i < input.length(); i++){
-				if (!(input[i] >= '0' && input[i] <= '9')) {
-					return false;
-				}
-			}
-			return true;
+	input = context.marshal_as<std::string>(this->VectorDegreeTxtBox->Text);
+	for (unsigned int i = 0; i < input.length(); i++){
+		if (!(input[i] >= '0' && input[i] <= '9')) {
+			return false;
+		}
+	}
+	return true;
+			
 }
+
+//refresh vector list
+//-----------------------------------------------------------------------------------------------------------------------------------
+void refreshlist(){
+	//set up list of vectors
+	this->VectorList->Items->Clear();
+	for (int i{ 0 }; i < vectors_size; i++){
+		string vector{};
+		vector += to_string(vectors[i].magnitude);
+
+		if (vectors[i].ydir == 1){
+			vector += " [N";
+			vector += to_string(vectors[i].degree);
+		}
+		else if (vectors[i].ydir == 2){
+			vector += " [S";
+			vector += to_string(vectors[i].degree);
+		}
+
+		if (vectors[i].xdir == 1){
+			vector += "W]";
+
+		}
+		else if (vectors[i].xdir == 2){
+			vector += "E]";
+
+		}
+		this->VectorList->Items->Add(gcnew String(vector.c_str()));
+	}
+}
+
+//calc resultant
+//-----------------------------------------------------------------------------------------------------------------------------------
+void calcresultant(){
+
+	double xmag{};
+	double ymag{};
+	double resdegree{};
+	double resmag{};
+	string resultant{};
+	for (int i{ 0 }; i < vectors_size; i++){
+		xmag += vectors[i].xmagnitude;
+		ymag += vectors[i].ymagnitude;
+	}
+
+	resdegree = atan(abs(xmag / ymag)) * 180 / PI;
+	resmag = sqrt(pow(xmag, 2) + pow(ymag, 2));
+	resultant += to_string(resmag);
+
+	//if the resultant isnt aligned along an axis
+	if (xmag != 0 && ymag != 0){
+		if (ymag > 0){
+			resultant += " [N";
+			resultant += to_string(resdegree);
+		}
+		else if (ymag < 0){
+			resultant += " [S";
+			resultant += to_string(resdegree);
+		}
+
+		if (xmag > 0){
+			resultant += "E]";
+
+		}
+		else if (xmag < 0){
+			resultant += "W]";
+
+		}
+	}
+	//if the resultant is aligned along an axis
+	else {
+		if (ymag == 0){
+			if (xmag > 0){
+				resultant += " [E]";
+			}
+			else if (xmag < 0){
+				resultant += " [W]";
+			}
+		}
+		else if (xmag == 0){
+			if (ymag > 0){
+				resultant += " [N]";
+			}
+			else if (ymag < 0){
+				resultant += " [S]";
+			}
+		}
+	}
+
+
+	//display resultant
+	this->VectorXMagTxtBox->Text = xmag.ToString();
+	this->VectorYMagTxtBox->Text = ymag.ToString();
+	this->VectorResultantTxtBox->Text = gcnew String(resultant.c_str());
+}
+
 //add button
 //-----------------------------------------------------------------------------------------------------------------------------------
 private: System::Void VectorAddBtn_Click(System::Object^  sender, System::EventArgs^  e) {
@@ -393,73 +493,13 @@ private: System::Void VectorAddBtn_Click(System::Object^  sender, System::EventA
 	}
 
 
-	//calc resultant
-	//---------------------------------------------
-	double xmag{};
-	double ymag{};
-	double resdegree{};
-	double resmag{};
-	string resultant{};
-	for (int i{ 0 }; i < vectors_size; i++){
-		xmag += vectors[i].xmagnitude;
-		ymag += vectors[i].ymagnitude;
-	}
+	calcresultant();
 
-	resdegree = atan(abs(xmag / ymag)) * 180 / PI;
-	resmag = sqrt(pow(xmag, 2) + pow(ymag, 2));
-	resultant += to_string (resmag);
-
-
-	if (ymag > 0){
-		resultant += " [N";
-		resultant += to_string(resdegree);
-	}
-	else if (ymag < 0){
-		resultant += " [S";
-		resultant += to_string(resdegree);
-	}
-
-	if (xmag > 0){
-		resultant += "E]";
-		
-	}
-	else if (xmag < 0){
-		resultant += "W]";
-		
-	}
-
-	//display resultant
-	this->VectorXMagTxtBox->Text = xmag.ToString();
-	this->VectorYMagTxtBox->Text = ymag.ToString();
-	this->VectorResultantTxtBox->Text = gcnew String(resultant.c_str());
-
-	//set up list of vectors
-	this->VectorList->Items->Clear();
-	for (int i{ 0 }; i < vectors_size; i++){
-		string vector{};
-		vector += to_string (vectors[i].magnitude);
-		
-		if (vectors[i].ydir == 1){
-			vector += " [N";
-			vector += to_string(resdegree);
-		}
-		else if (vectors[i].ydir == 2){
-			vector += " [S";
-			vector += to_string(resdegree);
-		}
-
-		if (vectors[i].xdir == 1){
-			vector += "W]";
-
-		}
-		else if (vectors[i].xdir == 2){
-			vector += "E]";
-
-		}
-		this->VectorList->Items->Add(gcnew String (vector.c_str()));
-	}
 	
+	refreshlist();
+	this->VectorDeleteBtn->Enabled = false;
 }
+
 //direction 1 selected
 //-----------------------------------------------------------------------------------------------------------------------------------
 private: System::Void VectorDirectionBox1_SelectedIndexChanged(System::Object^  sender, System::EventArgs^  e) {
@@ -477,15 +517,21 @@ private: System::Void VectorDirectionBox1_SelectedIndexChanged(System::Object^  
 
 	//deactivate add button
 	this->VectorAddBtn->Enabled = false;
-	
+	this->VectorEditBtn->Enabled = false;
 }
 
 //add button activation mananagement
 //-----------------------------------------------------------------------------------------------------------------------------------
-	private: System::Void VectorMagnitudeTxtBox_TextChanged(System::Object^  sender, System::EventArgs^  e) {
+private: System::Void VectorMagnitudeTxtBox_TextChanged(System::Object^  sender, System::EventArgs^  e) {
 
 		if (this->VectorMagnitudeTxtBox->Text != "" && this->VectorDirectionBox1->Text != "" && this->VectorDegreeTxtBox->Text != "" && this->VectorDirectionBox2->Text != "" && this->isnumber() == true){
-			this->VectorAddBtn->Enabled = true;
+			//checks if degree is less than 90
+			if (System::Convert::ToDouble(this->VectorDegreeTxtBox->Text) < 90){
+				this->VectorAddBtn->Enabled = true;
+			}
+			else {
+				this->VectorAddBtn->Enabled = false;
+			}
 		}
 		else{
 			this->VectorAddBtn->Enabled = false;
@@ -494,7 +540,13 @@ private: System::Void VectorDirectionBox1_SelectedIndexChanged(System::Object^  
 private: System::Void VectorDirectionBox1_TextChanged(System::Object^  sender, System::EventArgs^  e) {
 
 	if (this->VectorMagnitudeTxtBox->Text != "" && this->VectorDirectionBox1->Text != "" && this->VectorDegreeTxtBox->Text != "" && this->VectorDirectionBox2->Text != "" && this->isnumber() == true){
-		this->VectorAddBtn->Enabled = true;
+		//checks if degree is less than 90
+		if (System::Convert::ToDouble(this->VectorDegreeTxtBox->Text) < 90){
+			this->VectorAddBtn->Enabled = true;
+		}
+		else {
+			this->VectorAddBtn->Enabled = false;
+		}
 	}
 	else{
 		this->VectorAddBtn->Enabled = false;
@@ -503,7 +555,13 @@ private: System::Void VectorDirectionBox1_TextChanged(System::Object^  sender, S
 private: System::Void VectorDegreeTxtBox_TextChanged(System::Object^  sender, System::EventArgs^  e) {
 
 	if (this->VectorMagnitudeTxtBox->Text != "" && this->VectorDirectionBox1->Text != "" && this->VectorDegreeTxtBox->Text != "" && this->VectorDirectionBox2->Text != "" && this->isnumber() == true){
-		this->VectorAddBtn->Enabled = true;
+		//checks if degree is less than 90
+		if (System::Convert::ToDouble(this->VectorDegreeTxtBox->Text) < 90){
+			this->VectorAddBtn->Enabled = true;
+		}
+		else {
+			this->VectorAddBtn->Enabled = false;
+		}
 	}
 	else{
 		this->VectorAddBtn->Enabled = false;
@@ -512,16 +570,41 @@ private: System::Void VectorDegreeTxtBox_TextChanged(System::Object^  sender, Sy
 private: System::Void VectorDirectionBox2_TextChanged(System::Object^  sender, System::EventArgs^  e) {
 
 	if (this->VectorMagnitudeTxtBox->Text != "" && this->VectorDirectionBox1->Text != "" && this->VectorDegreeTxtBox->Text != "" && this->VectorDirectionBox2->Text != "" && this->isnumber() == true){
-		this->VectorAddBtn->Enabled = true;
+		//checks if degree is less than 90
+		if (System::Convert::ToDouble(this->VectorDegreeTxtBox->Text) < 90){
+			this->VectorAddBtn->Enabled = true;
+		}
+		else {
+			this->VectorAddBtn->Enabled = false;
+		}
 	}
 	else{
 		this->VectorAddBtn->Enabled = false;
 	}
 }
 
-		 
-};
+//delete and edit button control
+//-----------------------------------------------------------------------------------------------------------------------------------
+private: System::Void VectorList_SelectedValueChanged(System::Object^  sender, System::EventArgs^  e) {
+	if (this->VectorList->SelectedIndex == -1){
+		this->VectorDeleteBtn->Enabled = false;
+		this->VectorEditBtn->Enabled = false;
+	}
+	else{
+		this->VectorDeleteBtn->Enabled = true;
+		this->VectorEditBtn->Enabled = true;
+	}
+}
+private: System::Void Vectoraddition_Load(System::Object^  sender, System::EventArgs^  e) {
+	this->VectorDeleteBtn->Enabled = false;
+	this->VectorEditBtn->Enabled = false;
+}
+
+//delete an element of the list		 
+private: System::Void VectorDeleteBtn_Click(System::Object^  sender, System::EventArgs^  e) {
+	
 }
 
 
-
+};
+}
