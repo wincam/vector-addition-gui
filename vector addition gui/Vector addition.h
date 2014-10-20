@@ -522,65 +522,35 @@ private: System::Void VectorDirectionBox1_SelectedIndexChanged(System::Object^  
 
 //add button activation mananagement
 //-----------------------------------------------------------------------------------------------------------------------------------
-private: System::Void VectorMagnitudeTxtBox_TextChanged(System::Object^  sender, System::EventArgs^  e) {
-
-		if (this->VectorMagnitudeTxtBox->Text != "" && this->VectorDirectionBox1->Text != "" && this->VectorDegreeTxtBox->Text != "" && this->VectorDirectionBox2->Text != "" && this->isnumber() == true){
-			//checks if degree is less than 90
-			if (System::Convert::ToDouble(this->VectorDegreeTxtBox->Text) < 90){
-				this->VectorAddBtn->Enabled = true;
-			}
-			else {
-				this->VectorAddBtn->Enabled = false;
-			}
+void addbuttionactivate(){
+	if (this->VectorMagnitudeTxtBox->Text != "" && this->VectorDirectionBox1->Text != "" && this->VectorDegreeTxtBox->Text != "" && this->VectorDirectionBox2->Text != "" && this->isnumber() == true){
+		//checks if degree is less than 90
+		if (System::Convert::ToDouble(this->VectorDegreeTxtBox->Text) < 90){
+			this->VectorAddBtn->Enabled = true;
 		}
-		else{
+		else {
 			this->VectorAddBtn->Enabled = false;
 		}
+	}
+	else{
+		this->VectorAddBtn->Enabled = false;
+	}
+}
+private: System::Void VectorMagnitudeTxtBox_TextChanged(System::Object^  sender, System::EventArgs^  e) {
+
+	addbuttionactivate();
 }
 private: System::Void VectorDirectionBox1_TextChanged(System::Object^  sender, System::EventArgs^  e) {
 
-	if (this->VectorMagnitudeTxtBox->Text != "" && this->VectorDirectionBox1->Text != "" && this->VectorDegreeTxtBox->Text != "" && this->VectorDirectionBox2->Text != "" && this->isnumber() == true){
-		//checks if degree is less than 90
-		if (System::Convert::ToDouble(this->VectorDegreeTxtBox->Text) < 90){
-			this->VectorAddBtn->Enabled = true;
-		}
-		else {
-			this->VectorAddBtn->Enabled = false;
-		}
-	}
-	else{
-		this->VectorAddBtn->Enabled = false;
-	}
+	addbuttionactivate();
 }
 private: System::Void VectorDegreeTxtBox_TextChanged(System::Object^  sender, System::EventArgs^  e) {
 
-	if (this->VectorMagnitudeTxtBox->Text != "" && this->VectorDirectionBox1->Text != "" && this->VectorDegreeTxtBox->Text != "" && this->VectorDirectionBox2->Text != "" && this->isnumber() == true){
-		//checks if degree is less than 90
-		if (System::Convert::ToDouble(this->VectorDegreeTxtBox->Text) < 90){
-			this->VectorAddBtn->Enabled = true;
-		}
-		else {
-			this->VectorAddBtn->Enabled = false;
-		}
-	}
-	else{
-		this->VectorAddBtn->Enabled = false;
-	}
+	addbuttionactivate();
 }
 private: System::Void VectorDirectionBox2_TextChanged(System::Object^  sender, System::EventArgs^  e) {
 
-	if (this->VectorMagnitudeTxtBox->Text != "" && this->VectorDirectionBox1->Text != "" && this->VectorDegreeTxtBox->Text != "" && this->VectorDirectionBox2->Text != "" && this->isnumber() == true){
-		//checks if degree is less than 90
-		if (System::Convert::ToDouble(this->VectorDegreeTxtBox->Text) < 90){
-			this->VectorAddBtn->Enabled = true;
-		}
-		else {
-			this->VectorAddBtn->Enabled = false;
-		}
-	}
-	else{
-		this->VectorAddBtn->Enabled = false;
-	}
+	addbuttionactivate();
 }
 
 //delete and edit button control
