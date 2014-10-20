@@ -498,6 +498,7 @@ private: System::Void VectorAddBtn_Click(System::Object^  sender, System::EventA
 	
 	refreshlist();
 	this->VectorDeleteBtn->Enabled = false;
+	this->VectorEditBtn->Enabled = false;
 }
 
 //direction 1 selected
