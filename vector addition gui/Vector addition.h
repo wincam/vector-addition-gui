@@ -128,6 +128,7 @@ namespace vectoradditiongui {
 			this->VectorEditBtn->TabIndex = 3;
 			this->VectorEditBtn->Text = L"Edit";
 			this->VectorEditBtn->UseVisualStyleBackColor = true;
+			this->VectorEditBtn->Click += gcnew System::EventHandler(this, &Vectoraddition::VectorEditBtn_Click);
 			// 
 			// VectorDeleteBtn
 			// 
@@ -590,6 +591,10 @@ private: System::Void VectorDeleteBtn_Click(System::Object^  sender, System::Eve
 	refreshlist();
 }
 
-
+//edit an element of the list
+//-----------------------------------------------------------------------------------------------------------------------------------
+private: System::Void VectorEditBtn_Click(System::Object^  sender, System::EventArgs^  e) {
+	
+}
 };
 }
