@@ -23,7 +23,7 @@ Vector * vectorarrayexpand(Vector * array, int arraysize, int arrayincrease)
 }
 
 //vector array delete
-Vector * vectorarragdelete(Vector * array, int arraysize, int elementtodelete)
+Vector * vectorarraydelete(Vector * array, int arraysize, int elementtodelete)
 {
 	Vector * newarray = new Vector[arraysize - 1];
 	bool deleted { false };

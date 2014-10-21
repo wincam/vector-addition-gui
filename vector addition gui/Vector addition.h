@@ -571,9 +571,23 @@ private: System::Void Vectoraddition_Load(System::Object^  sender, System::Event
 	this->VectorEditBtn->Enabled = false;
 }
 
-//delete an element of the list		 
+//delete an element of the list
+//-----------------------------------------------------------------------------------------------------------------------------------
 private: System::Void VectorDeleteBtn_Click(System::Object^  sender, System::EventArgs^  e) {
-	
+
+	vectors = vectorarraydelete(vectors, vectors_size, this->VectorList->SelectedIndex);
+	vectors_size--;
+
+	//deactivate the edit and delete button
+	if (vectors_size == 0){
+		this->VectorDeleteBtn->Enabled = false;
+		this->VectorEditBtn->Enabled = false;
+	}
+
+	//refresh
+	calcresultant();
+
+	refreshlist();
 }
 
 
