@@ -428,6 +428,8 @@ void calcresultant(){
 	this->VectorResultantTxtBox->Text = gcnew String(resultant.c_str());
 }
 
+//delete element
+//-----------------------------------------------------------------------------------------------------------------------------------
 void deleteelement(){
 	vectors = vectorarraydelete(vectors, vectors_size, this->VectorList->SelectedIndex);
 	vectors_size--;
