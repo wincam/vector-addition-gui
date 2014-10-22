@@ -428,6 +428,22 @@ void calcresultant(){
 	this->VectorResultantTxtBox->Text = gcnew String(resultant.c_str());
 }
 
+void deleteelement(){
+	vectors = vectorarraydelete(vectors, vectors_size, this->VectorList->SelectedIndex);
+	vectors_size--;
+
+	//deactivate the edit and delete button
+	if (vectors_size == 0){
+		this->VectorDeleteBtn->Enabled = false;
+		this->VectorEditBtn->Enabled = false;
+	}
+
+	//refresh
+	calcresultant();
+
+	refreshlist();
+}
+
 //add button
 //-----------------------------------------------------------------------------------------------------------------------------------
 private: System::Void VectorAddBtn_Click(System::Object^  sender, System::EventArgs^  e) {
@@ -576,25 +592,49 @@ private: System::Void Vectoraddition_Load(System::Object^  sender, System::Event
 //-----------------------------------------------------------------------------------------------------------------------------------
 private: System::Void VectorDeleteBtn_Click(System::Object^  sender, System::EventArgs^  e) {
 
-	vectors = vectorarraydelete(vectors, vectors_size, this->VectorList->SelectedIndex);
-	vectors_size--;
-
-	//deactivate the edit and delete button
-	if (vectors_size == 0){
-		this->VectorDeleteBtn->Enabled = false;
-		this->VectorEditBtn->Enabled = false;
-	}
-
-	//refresh
-	calcresultant();
-
-	refreshlist();
+	deleteelement();
+	
 }
 
 //edit an element of the list
 //-----------------------------------------------------------------------------------------------------------------------------------
 private: System::Void VectorEditBtn_Click(System::Object^  sender, System::EventArgs^  e) {
+	//move element to the edit box
+	this->VectorMagnitudeTxtBox->Text = vectors[this->VectorList->SelectedIndex].magnitude.ToString();
+
+	switch (vectors[this->VectorList->SelectedIndex].ydir){
+
+	case 1:
+		this->VectorDirectionBox1->Text = "N";
+		break;
+		
+	case 2:
+		this->VectorDirectionBox1->Text = "S";
+		break;
 	
+	}
+
+	this->VectorDegreeTxtBox->Text = vectors[this->VectorList->SelectedIndex].degree.ToString();
+
+	//set up directon box
+	this->VectorDirectionBox2->Items->Clear();
+	this->VectorDirectionBox2->Items->Add("E");
+	this->VectorDirectionBox2->Items->Add("W");
+
+	switch (vectors[this->VectorList->SelectedIndex].xdir){
+
+	case 1:
+		this->VectorDirectionBox2->Text = "W";
+		break;
+
+	case 2:
+		this->VectorDirectionBox2->Text = "E";
+		break;
+
+	}
+
+	//delete element from the array
+	deleteelement();
 }
 };
 }
