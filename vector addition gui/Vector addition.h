@@ -1,6 +1,7 @@
 #pragma once
 #include <math.h>
 #include <string>
+#include <sstream>
 #include <msclr/marshal.h>
 #include <msclr/marshal_cppstd.h>
 
@@ -65,6 +66,8 @@ namespace vectoradditiongui {
 
 	private: System::Windows::Forms::Label^  VectorLabel4;
 	private: System::Windows::Forms::TextBox^  VectorResultantTxtBox;
+	private: System::Windows::Forms::Label^  ExpLabel;
+	private: System::Windows::Forms::TextBox^  VectorExpEditBox;
 
 
 
@@ -103,6 +106,8 @@ namespace vectoradditiongui {
 			this->Vectorlabel2 = (gcnew System::Windows::Forms::Label());
 			this->VectorYMagTxtBox = (gcnew System::Windows::Forms::TextBox());
 			this->VectorXMagTxtBox = (gcnew System::Windows::Forms::TextBox());
+			this->VectorExpEditBox = (gcnew System::Windows::Forms::TextBox());
+			this->ExpLabel = (gcnew System::Windows::Forms::Label());
 			this->VectorListBox->SuspendLayout();
 			this->VectorEditBox->SuspendLayout();
 			this->VectorResultantBox->SuspendLayout();
@@ -113,18 +118,21 @@ namespace vectoradditiongui {
 			this->VectorListBox->Controls->Add(this->VectorEditBtn);
 			this->VectorListBox->Controls->Add(this->VectorDeleteBtn);
 			this->VectorListBox->Controls->Add(this->VectorList);
-			this->VectorListBox->Location = System::Drawing::Point(464, 12);
+			this->VectorListBox->Location = System::Drawing::Point(696, 18);
+			this->VectorListBox->Margin = System::Windows::Forms::Padding(4, 5, 4, 5);
 			this->VectorListBox->Name = L"VectorListBox";
-			this->VectorListBox->Size = System::Drawing::Size(215, 187);
+			this->VectorListBox->Padding = System::Windows::Forms::Padding(4, 5, 4, 5);
+			this->VectorListBox->Size = System::Drawing::Size(322, 288);
 			this->VectorListBox->TabIndex = 0;
 			this->VectorListBox->TabStop = false;
 			this->VectorListBox->Text = L"Vectors";
 			// 
 			// VectorEditBtn
 			// 
-			this->VectorEditBtn->Location = System::Drawing::Point(6, 146);
+			this->VectorEditBtn->Location = System::Drawing::Point(9, 225);
+			this->VectorEditBtn->Margin = System::Windows::Forms::Padding(4, 5, 4, 5);
 			this->VectorEditBtn->Name = L"VectorEditBtn";
-			this->VectorEditBtn->Size = System::Drawing::Size(100, 28);
+			this->VectorEditBtn->Size = System::Drawing::Size(150, 43);
 			this->VectorEditBtn->TabIndex = 3;
 			this->VectorEditBtn->Text = L"Edit";
 			this->VectorEditBtn->UseVisualStyleBackColor = true;
@@ -132,9 +140,10 @@ namespace vectoradditiongui {
 			// 
 			// VectorDeleteBtn
 			// 
-			this->VectorDeleteBtn->Location = System::Drawing::Point(109, 146);
+			this->VectorDeleteBtn->Location = System::Drawing::Point(164, 225);
+			this->VectorDeleteBtn->Margin = System::Windows::Forms::Padding(4, 5, 4, 5);
 			this->VectorDeleteBtn->Name = L"VectorDeleteBtn";
-			this->VectorDeleteBtn->Size = System::Drawing::Size(100, 28);
+			this->VectorDeleteBtn->Size = System::Drawing::Size(150, 43);
 			this->VectorDeleteBtn->TabIndex = 2;
 			this->VectorDeleteBtn->Text = L"Delete";
 			this->VectorDeleteBtn->UseVisualStyleBackColor = true;
@@ -143,23 +152,29 @@ namespace vectoradditiongui {
 			// VectorList
 			// 
 			this->VectorList->FormattingEnabled = true;
-			this->VectorList->Location = System::Drawing::Point(6, 19);
+			this->VectorList->ItemHeight = 20;
+			this->VectorList->Location = System::Drawing::Point(9, 29);
+			this->VectorList->Margin = System::Windows::Forms::Padding(4, 5, 4, 5);
 			this->VectorList->Name = L"VectorList";
-			this->VectorList->Size = System::Drawing::Size(203, 121);
+			this->VectorList->Size = System::Drawing::Size(302, 184);
 			this->VectorList->TabIndex = 1;
 			this->VectorList->SelectedValueChanged += gcnew System::EventHandler(this, &Vectoraddition::VectorList_SelectedValueChanged);
 			// 
 			// VectorEditBox
 			// 
+			this->VectorEditBox->Controls->Add(this->ExpLabel);
+			this->VectorEditBox->Controls->Add(this->VectorExpEditBox);
 			this->VectorEditBox->Controls->Add(this->VectorAddBtn);
 			this->VectorEditBox->Controls->Add(this->VectorDirectionBox2);
 			this->VectorEditBox->Controls->Add(this->VectorDegreeTxtBox);
 			this->VectorEditBox->Controls->Add(this->VectorDirectionBox1);
 			this->VectorEditBox->Controls->Add(this->VectorLabel1);
 			this->VectorEditBox->Controls->Add(this->VectorMagnitudeTxtBox);
-			this->VectorEditBox->Location = System::Drawing::Point(12, 12);
+			this->VectorEditBox->Location = System::Drawing::Point(18, 18);
+			this->VectorEditBox->Margin = System::Windows::Forms::Padding(4, 5, 4, 5);
 			this->VectorEditBox->Name = L"VectorEditBox";
-			this->VectorEditBox->Size = System::Drawing::Size(446, 78);
+			this->VectorEditBox->Padding = System::Windows::Forms::Padding(4, 5, 4, 5);
+			this->VectorEditBox->Size = System::Drawing::Size(669, 120);
 			this->VectorEditBox->TabIndex = 1;
 			this->VectorEditBox->TabStop = false;
 			this->VectorEditBox->Text = L"Vector";
@@ -167,9 +182,10 @@ namespace vectoradditiongui {
 			// VectorAddBtn
 			// 
 			this->VectorAddBtn->Enabled = false;
-			this->VectorAddBtn->Location = System::Drawing::Point(6, 45);
+			this->VectorAddBtn->Location = System::Drawing::Point(9, 69);
+			this->VectorAddBtn->Margin = System::Windows::Forms::Padding(4, 5, 4, 5);
 			this->VectorAddBtn->Name = L"VectorAddBtn";
-			this->VectorAddBtn->Size = System::Drawing::Size(122, 22);
+			this->VectorAddBtn->Size = System::Drawing::Size(183, 34);
 			this->VectorAddBtn->TabIndex = 5;
 			this->VectorAddBtn->Text = L"Add";
 			this->VectorAddBtn->UseVisualStyleBackColor = true;
@@ -179,17 +195,19 @@ namespace vectoradditiongui {
 			// 
 			this->VectorDirectionBox2->DropDownStyle = System::Windows::Forms::ComboBoxStyle::DropDownList;
 			this->VectorDirectionBox2->FormattingEnabled = true;
-			this->VectorDirectionBox2->Location = System::Drawing::Point(391, 18);
+			this->VectorDirectionBox2->Location = System::Drawing::Point(586, 28);
+			this->VectorDirectionBox2->Margin = System::Windows::Forms::Padding(4, 5, 4, 5);
 			this->VectorDirectionBox2->Name = L"VectorDirectionBox2";
-			this->VectorDirectionBox2->Size = System::Drawing::Size(45, 21);
+			this->VectorDirectionBox2->Size = System::Drawing::Size(66, 28);
 			this->VectorDirectionBox2->TabIndex = 4;
 			this->VectorDirectionBox2->TextChanged += gcnew System::EventHandler(this, &Vectoraddition::VectorDirectionBox2_TextChanged);
 			// 
 			// VectorDegreeTxtBox
 			// 
-			this->VectorDegreeTxtBox->Location = System::Drawing::Point(338, 19);
+			this->VectorDegreeTxtBox->Location = System::Drawing::Point(507, 29);
+			this->VectorDegreeTxtBox->Margin = System::Windows::Forms::Padding(4, 5, 4, 5);
 			this->VectorDegreeTxtBox->Name = L"VectorDegreeTxtBox";
-			this->VectorDegreeTxtBox->Size = System::Drawing::Size(47, 20);
+			this->VectorDegreeTxtBox->Size = System::Drawing::Size(68, 26);
 			this->VectorDegreeTxtBox->TabIndex = 3;
 			this->VectorDegreeTxtBox->TextChanged += gcnew System::EventHandler(this, &Vectoraddition::VectorDegreeTxtBox_TextChanged);
 			// 
@@ -198,9 +216,10 @@ namespace vectoradditiongui {
 			this->VectorDirectionBox1->DropDownStyle = System::Windows::Forms::ComboBoxStyle::DropDownList;
 			this->VectorDirectionBox1->FormattingEnabled = true;
 			this->VectorDirectionBox1->Items->AddRange(gcnew cli::array< System::Object^  >(4) { L"N", L"S", L"E", L"W" });
-			this->VectorDirectionBox1->Location = System::Drawing::Point(287, 18);
+			this->VectorDirectionBox1->Location = System::Drawing::Point(430, 28);
+			this->VectorDirectionBox1->Margin = System::Windows::Forms::Padding(4, 5, 4, 5);
 			this->VectorDirectionBox1->Name = L"VectorDirectionBox1";
-			this->VectorDirectionBox1->Size = System::Drawing::Size(45, 21);
+			this->VectorDirectionBox1->Size = System::Drawing::Size(66, 28);
 			this->VectorDirectionBox1->TabIndex = 2;
 			this->VectorDirectionBox1->SelectedIndexChanged += gcnew System::EventHandler(this, &Vectoraddition::VectorDirectionBox1_SelectedIndexChanged);
 			this->VectorDirectionBox1->TextChanged += gcnew System::EventHandler(this, &Vectoraddition::VectorDirectionBox1_TextChanged);
@@ -208,17 +227,19 @@ namespace vectoradditiongui {
 			// VectorLabel1
 			// 
 			this->VectorLabel1->AutoSize = true;
-			this->VectorLabel1->Location = System::Drawing::Point(6, 22);
+			this->VectorLabel1->Location = System::Drawing::Point(9, 34);
+			this->VectorLabel1->Margin = System::Windows::Forms::Padding(4, 0, 4, 0);
 			this->VectorLabel1->Name = L"VectorLabel1";
-			this->VectorLabel1->Size = System::Drawing::Size(38, 13);
+			this->VectorLabel1->Size = System::Drawing::Size(56, 20);
 			this->VectorLabel1->TabIndex = 1;
 			this->VectorLabel1->Text = L"Vector";
 			// 
 			// VectorMagnitudeTxtBox
 			// 
-			this->VectorMagnitudeTxtBox->Location = System::Drawing::Point(50, 19);
+			this->VectorMagnitudeTxtBox->Location = System::Drawing::Point(73, 28);
+			this->VectorMagnitudeTxtBox->Margin = System::Windows::Forms::Padding(4, 5, 4, 5);
 			this->VectorMagnitudeTxtBox->Name = L"VectorMagnitudeTxtBox";
-			this->VectorMagnitudeTxtBox->Size = System::Drawing::Size(231, 20);
+			this->VectorMagnitudeTxtBox->Size = System::Drawing::Size(208, 26);
 			this->VectorMagnitudeTxtBox->TabIndex = 0;
 			this->VectorMagnitudeTxtBox->TextChanged += gcnew System::EventHandler(this, &Vectoraddition::VectorMagnitudeTxtBox_TextChanged);
 			// 
@@ -230,9 +251,11 @@ namespace vectoradditiongui {
 			this->VectorResultantBox->Controls->Add(this->Vectorlabel2);
 			this->VectorResultantBox->Controls->Add(this->VectorYMagTxtBox);
 			this->VectorResultantBox->Controls->Add(this->VectorXMagTxtBox);
-			this->VectorResultantBox->Location = System::Drawing::Point(12, 96);
+			this->VectorResultantBox->Location = System::Drawing::Point(18, 148);
+			this->VectorResultantBox->Margin = System::Windows::Forms::Padding(4, 5, 4, 5);
 			this->VectorResultantBox->Name = L"VectorResultantBox";
-			this->VectorResultantBox->Size = System::Drawing::Size(446, 103);
+			this->VectorResultantBox->Padding = System::Windows::Forms::Padding(4, 5, 4, 5);
+			this->VectorResultantBox->Size = System::Drawing::Size(669, 158);
 			this->VectorResultantBox->TabIndex = 2;
 			this->VectorResultantBox->TabStop = false;
 			this->VectorResultantBox->Text = L"Resultant";
@@ -240,65 +263,92 @@ namespace vectoradditiongui {
 			// VectorLabel4
 			// 
 			this->VectorLabel4->AutoSize = true;
-			this->VectorLabel4->Location = System::Drawing::Point(6, 74);
+			this->VectorLabel4->Location = System::Drawing::Point(9, 114);
+			this->VectorLabel4->Margin = System::Windows::Forms::Padding(4, 0, 4, 0);
 			this->VectorLabel4->Name = L"VectorLabel4";
-			this->VectorLabel4->Size = System::Drawing::Size(52, 13);
+			this->VectorLabel4->Size = System::Drawing::Size(78, 20);
 			this->VectorLabel4->TabIndex = 7;
 			this->VectorLabel4->Text = L"Resultant";
 			// 
 			// VectorLabel3
 			// 
 			this->VectorLabel3->AutoSize = true;
-			this->VectorLabel3->Location = System::Drawing::Point(6, 48);
+			this->VectorLabel3->Location = System::Drawing::Point(9, 74);
+			this->VectorLabel3->Margin = System::Windows::Forms::Padding(4, 0, 4, 0);
 			this->VectorLabel3->Name = L"VectorLabel3";
-			this->VectorLabel3->Size = System::Drawing::Size(67, 13);
+			this->VectorLabel3->Size = System::Drawing::Size(99, 20);
 			this->VectorLabel3->TabIndex = 5;
 			this->VectorLabel3->Text = L"Y Magnitude";
 			// 
 			// VectorResultantTxtBox
 			// 
-			this->VectorResultantTxtBox->Location = System::Drawing::Point(79, 71);
+			this->VectorResultantTxtBox->Location = System::Drawing::Point(118, 109);
+			this->VectorResultantTxtBox->Margin = System::Windows::Forms::Padding(4, 5, 4, 5);
 			this->VectorResultantTxtBox->Name = L"VectorResultantTxtBox";
 			this->VectorResultantTxtBox->ReadOnly = true;
-			this->VectorResultantTxtBox->Size = System::Drawing::Size(357, 20);
+			this->VectorResultantTxtBox->Size = System::Drawing::Size(534, 26);
 			this->VectorResultantTxtBox->TabIndex = 6;
 			// 
 			// Vectorlabel2
 			// 
 			this->Vectorlabel2->AutoSize = true;
-			this->Vectorlabel2->Location = System::Drawing::Point(6, 22);
+			this->Vectorlabel2->Location = System::Drawing::Point(9, 34);
+			this->Vectorlabel2->Margin = System::Windows::Forms::Padding(4, 0, 4, 0);
 			this->Vectorlabel2->Name = L"Vectorlabel2";
-			this->Vectorlabel2->Size = System::Drawing::Size(67, 13);
+			this->Vectorlabel2->Size = System::Drawing::Size(99, 20);
 			this->Vectorlabel2->TabIndex = 3;
 			this->Vectorlabel2->Text = L"X Magnitude";
 			// 
 			// VectorYMagTxtBox
 			// 
-			this->VectorYMagTxtBox->Location = System::Drawing::Point(79, 45);
+			this->VectorYMagTxtBox->Location = System::Drawing::Point(118, 69);
+			this->VectorYMagTxtBox->Margin = System::Windows::Forms::Padding(4, 5, 4, 5);
 			this->VectorYMagTxtBox->Name = L"VectorYMagTxtBox";
 			this->VectorYMagTxtBox->ReadOnly = true;
-			this->VectorYMagTxtBox->Size = System::Drawing::Size(357, 20);
+			this->VectorYMagTxtBox->Size = System::Drawing::Size(534, 26);
 			this->VectorYMagTxtBox->TabIndex = 4;
 			// 
 			// VectorXMagTxtBox
 			// 
-			this->VectorXMagTxtBox->Location = System::Drawing::Point(79, 19);
+			this->VectorXMagTxtBox->Location = System::Drawing::Point(118, 29);
+			this->VectorXMagTxtBox->Margin = System::Windows::Forms::Padding(4, 5, 4, 5);
 			this->VectorXMagTxtBox->Name = L"VectorXMagTxtBox";
 			this->VectorXMagTxtBox->ReadOnly = true;
-			this->VectorXMagTxtBox->Size = System::Drawing::Size(357, 20);
+			this->VectorXMagTxtBox->Size = System::Drawing::Size(534, 26);
 			this->VectorXMagTxtBox->TabIndex = 0;
+			// 
+			// VectorExpEditBox
+			// 
+			this->VectorExpEditBox->Location = System::Drawing::Point(346, 28);
+			this->VectorExpEditBox->Margin = System::Windows::Forms::Padding(4, 5, 4, 5);
+			this->VectorExpEditBox->Name = L"VectorExpEditBox";
+			this->VectorExpEditBox->Size = System::Drawing::Size(76, 26);
+			this->VectorExpEditBox->TabIndex = 6;
+			this->VectorExpEditBox->TextChanged += gcnew System::EventHandler(this, &Vectoraddition::VectorExpEditBox_TextChanged);
+			// 
+			// ExpLabel
+			// 
+			this->ExpLabel->AutoSize = true;
+			this->ExpLabel->Location = System::Drawing::Point(289, 31);
+			this->ExpLabel->Margin = System::Windows::Forms::Padding(4, 0, 4, 0);
+			this->ExpLabel->Name = L"ExpLabel";
+			this->ExpLabel->Size = System::Drawing::Size(49, 20);
+			this->ExpLabel->TabIndex = 7;
+			this->ExpLabel->Text = L"X 10^";
 			// 
 			// Vectoraddition
 			// 
-			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
+			this->AutoScaleDimensions = System::Drawing::SizeF(9, 20);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(687, 214);
+			this->ClientSize = System::Drawing::Size(1030, 329);
 			this->Controls->Add(this->VectorResultantBox);
 			this->Controls->Add(this->VectorEditBox);
 			this->Controls->Add(this->VectorListBox);
 			this->FormBorderStyle = System::Windows::Forms::FormBorderStyle::FixedSingle;
+			this->Margin = System::Windows::Forms::Padding(4, 5, 4, 5);
 			this->MaximizeBox = false;
 			this->Name = L"Vectoraddition";
+			this->ShowIcon = false;
 			this->Text = L"Vector Addition Calculator";
 			this->Load += gcnew System::EventHandler(this, &Vectoraddition::Vectoraddition_Load);
 			this->VectorListBox->ResumeLayout(false);
@@ -329,6 +379,14 @@ bool isnumber(){
 			return false;
 		}
 	}
+
+
+	input = context.marshal_as<std::string>(this->VectorExpEditBox->Text);
+	for (unsigned int i = 0; i < input.length(); i++){
+		if (!(input[i] >= '0' && input[i] <= '9')) {
+			return false;
+		}
+	}
 	return true;
 			
 }
@@ -337,11 +395,14 @@ bool isnumber(){
 //-----------------------------------------------------------------------------------------------------------------------------------
 void refreshlist(){
 	//set up list of vectors
+	stringstream ss;
 	this->VectorList->Items->Clear();
 	for (int i{ 0 }; i < vectors_size; i++){
 		string vector{};
-		vector += to_string(vectors[i].magnitude);
-
+		ss << scientific << vectors[i].magnitude;
+		vector += ss.str();
+		ss.str(string());
+		ss.clear();
 		if (vectors[i].ydir == 1){
 			vector += " [N";
 			vector += to_string(vectors[i].degree);
@@ -376,10 +437,15 @@ void calcresultant(){
 		xmag += vectors[i].xmagnitude;
 		ymag += vectors[i].ymagnitude;
 	}
+	stringstream ss;
+	
 
 	resdegree = atan(abs(xmag / ymag)) * 180 / PI;
 	resmag = sqrt(pow(xmag, 2) + pow(ymag, 2));
-	resultant += to_string(resmag);
+	ss << scientific << resmag;
+	resultant += ss.str();
+	ss.str(string());
+	ss.clear();
 
 	//if the resultant isnt aligned along an axis
 	if (xmag != 0 && ymag != 0){
@@ -420,11 +486,17 @@ void calcresultant(){
 			}
 		}
 	}
-
+	
 
 	//display resultant
-	this->VectorXMagTxtBox->Text = xmag.ToString();
-	this->VectorYMagTxtBox->Text = ymag.ToString();
+	ss << scientific << xmag;
+	this->VectorXMagTxtBox->Text = gcnew String(ss.str().c_str());
+	ss.str(string());
+	ss.clear();
+	ss << scientific << ymag;
+	this->VectorYMagTxtBox->Text = gcnew String(ss.str().c_str());
+	ss.str(string());
+	ss.clear();
 	this->VectorResultantTxtBox->Text = gcnew String(resultant.c_str());
 }
 
@@ -498,7 +570,7 @@ private: System::Void VectorAddBtn_Click(System::Object^  sender, System::EventA
 	}
 	//vector magnitude
 	vectors[vectors_size - 1].magnitude = System::Convert::ToDouble(this->VectorMagnitudeTxtBox->Text);
-
+	vectors[vectors_size - 1].magnitude = vectors[vectors_size - 1].magnitude * pow(10.0, System::Convert::ToDouble(this->VectorExpEditBox->Text));
 
 	// component calculations
 	vectors[vectors_size - 1].xmagnitude = (vectors[vectors_size - 1].magnitude*(sin(vectors[vectors_size - 1].degree * PI / 180)));
@@ -543,7 +615,7 @@ private: System::Void VectorDirectionBox1_SelectedIndexChanged(System::Object^  
 //add button activation mananagement
 //-----------------------------------------------------------------------------------------------------------------------------------
 void addbuttionactivate(){
-	if (this->VectorMagnitudeTxtBox->Text != "" && this->VectorDirectionBox1->Text != "" && this->VectorDegreeTxtBox->Text != "" && this->VectorDirectionBox2->Text != "" && this->isnumber() == true){
+	if (this->VectorMagnitudeTxtBox->Text != "" && this->VectorDirectionBox1->Text != "" && this->VectorDegreeTxtBox->Text != "" && this->VectorDirectionBox2->Text != "" && this->VectorExpEditBox->Text != "" && this->isnumber() == true){
 		//checks if degree is less than 90
 		if (System::Convert::ToDouble(this->VectorDegreeTxtBox->Text) < 90){
 			this->VectorAddBtn->Enabled = true;
@@ -569,6 +641,10 @@ private: System::Void VectorDegreeTxtBox_TextChanged(System::Object^  sender, Sy
 	addbuttionactivate();
 }
 private: System::Void VectorDirectionBox2_TextChanged(System::Object^  sender, System::EventArgs^  e) {
+
+	addbuttionactivate();
+}
+private: System::Void VectorExpEditBox_TextChanged(System::Object^  sender, System::EventArgs^  e) {
 
 	addbuttionactivate();
 }
@@ -616,6 +692,7 @@ private: System::Void VectorEditBtn_Click(System::Object^  sender, System::Event
 	
 	}
 
+	this->VectorExpEditBox->Text = "";
 	this->VectorDegreeTxtBox->Text = vectors[this->VectorList->SelectedIndex].degree.ToString();
 
 	//set up directon box
