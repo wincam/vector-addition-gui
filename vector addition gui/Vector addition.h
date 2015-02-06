@@ -2,6 +2,7 @@
 #include <math.h>
 #include <string>
 #include <sstream>
+#include <iomanip>
 #include <msclr/marshal.h>
 #include <msclr/marshal_cppstd.h>
 
@@ -367,9 +368,13 @@ bool isnumber(){
 	string input{ context.marshal_as<std::string>(this->VectorMagnitudeTxtBox->Text) };
 
 	//check if input boxes are only numbers
+	boolean decimalused = false;
 	for (unsigned int i = 0; i < input.length(); i++){
-		if (!(input[i] >= '0' && input[i] <= '9')) {
+		if (!((input[i] >= '0' && input[i] <= '9') || ((input[i] == '.') && (decimalused == false)))) {
 			return false;
+		}
+		if (input[i] == '.'){
+			decimalused = true;
 		}
 	}
 
@@ -399,7 +404,7 @@ void refreshlist(){
 	this->VectorList->Items->Clear();
 	for (int i{ 0 }; i < vectors_size; i++){
 		string vector{};
-		ss << scientific << vectors[i].magnitude;
+		ss << scientific << setprecision(vectors[i].magnitudesigdig) << vectors[i].magnitude;
 		vector += ss.str();
 		ss.str(string());
 		ss.clear();
@@ -432,17 +437,27 @@ void calcresultant(){
 	double ymag{};
 	double resdegree{};
 	double resmag{};
+	int ressigdig{};
 	string resultant{};
+
+	if (vectors_size >= 1){
+		ressigdig = vectors[0].magnitudesigdig;
+	}
 	for (int i{ 0 }; i < vectors_size; i++){
 		xmag += vectors[i].xmagnitude;
 		ymag += vectors[i].ymagnitude;
+
+		//find lowest sig dig
+		if (ressigdig > vectors[i].magnitudesigdig){
+			ressigdig = vectors[i].magnitudesigdig;
+		}
 	}
 	stringstream ss;
 	
 
 	resdegree = atan(abs(xmag / ymag)) * 180 / PI;
 	resmag = sqrt(pow(xmag, 2) + pow(ymag, 2));
-	ss << scientific << resmag;
+	ss << scientific << setprecision(ressigdig) << resmag;
 	resultant += ss.str();
 	ss.str(string());
 	ss.clear();
@@ -489,11 +504,11 @@ void calcresultant(){
 	
 
 	//display resultant
-	ss << scientific << xmag;
+	ss << scientific << setprecision(ressigdig) << xmag;
 	this->VectorXMagTxtBox->Text = gcnew String(ss.str().c_str());
 	ss.str(string());
 	ss.clear();
-	ss << scientific << ymag;
+	ss << scientific << setprecision(ressigdig) << ymag;
 	this->VectorYMagTxtBox->Text = gcnew String(ss.str().c_str());
 	ss.str(string());
 	ss.clear();
@@ -521,6 +536,7 @@ void deleteelement(){
 //add button
 //-----------------------------------------------------------------------------------------------------------------------------------
 private: System::Void VectorAddBtn_Click(System::Object^  sender, System::EventArgs^  e) {
+	msclr::interop::marshal_context context;
 	vectors_size++;
 	vectors = vectorarrayexpand(vectors, vectors_size, 1);
 	if (this->VectorDirectionBox1->Text == "N" || this->VectorDirectionBox1->Text == "S"){
@@ -543,7 +559,7 @@ private: System::Void VectorAddBtn_Click(System::Object^  sender, System::EventA
 		}
 
 		//vector degree
-		vectors[vectors_size - 1].degree = System::Convert::ToDouble(this->VectorDegreeTxtBox->Text);
+		vectors[vectors_size - 1].degree = System::Convert::ToInt32(this->VectorDegreeTxtBox->Text);
 
 	}
 	else if (this->VectorDirectionBox1->Text == "E" || this->VectorDirectionBox1->Text == "W"){
@@ -565,12 +581,22 @@ private: System::Void VectorAddBtn_Click(System::Object^  sender, System::EventA
 		}
 
 		//vector degree
-		vectors[vectors_size - 1].degree = 90 - System::Convert::ToDouble(this->VectorDegreeTxtBox->Text);
+		vectors[vectors_size - 1].degree = 90 - System::Convert::ToInt32(this->VectorDegreeTxtBox->Text);
 
 	}
 	//vector magnitude
 	vectors[vectors_size - 1].magnitude = System::Convert::ToDouble(this->VectorMagnitudeTxtBox->Text);
 	vectors[vectors_size - 1].magnitude = vectors[vectors_size - 1].magnitude * pow(10.0, System::Convert::ToDouble(this->VectorExpEditBox->Text));
+	
+	//sig figs
+	int sigfigs{};
+
+	for (int i{ 0 }; i < (int)msclr::interop::marshal_as<std::string>(this->VectorMagnitudeTxtBox->Text).size(); i++){
+		if (msclr::interop::marshal_as<std::string>(this->VectorMagnitudeTxtBox->Text)[i] >= '0' && msclr::interop::marshal_as<std::string>(this->VectorMagnitudeTxtBox->Text)[i] <= '9') {
+			sigfigs++;
+		}
+	}
+	vectors[vectors_size - 1].magnitudesigdig = sigfigs - 1;
 
 	// component calculations
 	vectors[vectors_size - 1].xmagnitude = (vectors[vectors_size - 1].magnitude*(sin(vectors[vectors_size - 1].degree * PI / 180)));

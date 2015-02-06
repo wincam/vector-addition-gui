@@ -2,9 +2,10 @@
 struct Vector
 {
 	double magnitude{};
+	int magnitudesigdig{};
 	double xmagnitude{};
 	double ymagnitude{};
-	double degree{};
+	int degree{};
 	short xdir{};
 	short ydir{};
 };
