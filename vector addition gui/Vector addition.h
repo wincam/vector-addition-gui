@@ -388,7 +388,7 @@ bool isnumber(){
 
 	input = context.marshal_as<std::string>(this->VectorExpEditBox->Text);
 	for (unsigned int i = 0; i < input.length(); i++){
-		if (!(input[i] >= '0' && input[i] <= '9')) {
+		if (!((input[i] >= '0' && input[i] <= '9') || ((input[i] == '-') && (i == 0)))) {
 			return false;
 		}
 	}
@@ -411,10 +411,12 @@ void refreshlist(){
 		if (vectors[i].ydir == 1){
 			vector += " [N";
 			vector += to_string(vectors[i].degree);
+			vector += "°";
 		}
 		else if (vectors[i].ydir == 2){
 			vector += " [S";
 			vector += to_string(vectors[i].degree);
+			vector += "°";
 		}
 
 		if (vectors[i].xdir == 1){
@@ -466,11 +468,13 @@ void calcresultant(){
 	if (xmag != 0 && ymag != 0){
 		if (ymag > 0){
 			resultant += " [N";
-			resultant += to_string(resdegree);
+			resultant += to_string((int)round (resdegree));
+			resultant += "°";
 		}
 		else if (ymag < 0){
 			resultant += " [S";
-			resultant += to_string(resdegree);
+			resultant += to_string((int)round(resdegree));
+			resultant += "°";
 		}
 
 		if (xmag > 0){
@@ -718,7 +722,7 @@ private: System::Void VectorEditBtn_Click(System::Object^  sender, System::Event
 	
 	}
 
-	this->VectorExpEditBox->Text = "";
+	this->VectorExpEditBox->Text = "0";
 	this->VectorDegreeTxtBox->Text = vectors[this->VectorList->SelectedIndex].degree.ToString();
 
 	//set up directon box
